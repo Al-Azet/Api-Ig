@@ -56,21 +56,16 @@ export default {
         }
       }
 
+      // Hapus "/en/home" dari array Video
+      media.Video = media.Video.filter(v => v !== "/en/home");
+
       const jsonResponse = {
         status: true,
         developer: "@Al_Azet",
         media: media,
       };
 
-      let jsonString = JSON.stringify(jsonResponse, null, 2);
-
-      // Sisipkan satu baris kosong antara "developer" dan "media"
-      jsonString = jsonString.replace(
-        /(\n\s+"developer": "[^"]+")(\n\s+"media":)/,
-        `$1\n\n$2`
-      );
-
-      return new Response(jsonString, {
+      return new Response(JSON.stringify(jsonResponse, null, 2), {
         headers: { "Content-Type": "application/json" },
       });
     } catch (err) {
