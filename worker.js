@@ -62,7 +62,15 @@ export default {
         media: media,
       };
 
-      return new Response(JSON.stringify(jsonResponse, null, 2), {
+      let jsonString = JSON.stringify(jsonResponse, null, 2);
+
+      // Sisipkan satu baris kosong antara "developer" dan "media"
+      jsonString = jsonString.replace(
+        /(\n\s+"developer": "[^"]+")(\n\s+"media":)/,
+        `$1\n\n$2`
+      );
+
+      return new Response(jsonString, {
         headers: { "Content-Type": "application/json" },
       });
     } catch (err) {
