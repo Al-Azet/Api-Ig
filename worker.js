@@ -5,7 +5,11 @@ export default {
 
     if (!url) {
       return new Response(
-        JSON.stringify({ status: false, error: "Tambahkan ?url=..." }),
+        JSON.stringify({
+          status: false,
+          developer: "@Al_Azet",
+          error: "Missing 'url' parameter"
+        }),
         {
           status: 400,
           headers: { "Content-Type": "application/json" },
