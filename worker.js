@@ -4,10 +4,13 @@ export default {
     const url = searchParams.get("url");
 
     if (!url) {
-      return new Response(JSON.stringify({ status: false, error: "Tambahkan ?url=..." }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ status: false, error: "Tambahkan ?url=..." }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
     }
 
     try {
@@ -21,10 +24,10 @@ export default {
       const res = await fetch("https://yt1s.io/api/ajaxSearch", {
         method: "POST",
         headers: {
-          "Accept": "application/json, text/plain, */*",
+          Accept: "application/json, text/plain, */*",
           "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-          "Origin": "https://yt1s.io",
-          "Referer": "https://yt1s.io/",
+          Origin: "https://yt1s.io",
+          Referer: "https://yt1s.io/",
           "User-Agent": "Mozilla/5.0",
         },
         body: formBody.toString(),
@@ -37,7 +40,7 @@ export default {
       let media = {
         Thumb: "",
         Video: [],
-        Foto: []
+        Foto: [],
       };
 
       for (let m of matches) {
@@ -53,22 +56,23 @@ export default {
         }
       }
 
-      const jsonString = `{
-  "status": true,
-  "developer": "@Al_Azet",
+      const jsonResponse = {
+        status: true,
+        developer: "@Al_Azet",
+        media: media,
+      };
 
-  "media": ${JSON.stringify(media, null, 2)}
-}`;
-
-      return new Response(jsonString, {
+      return new Response(JSON.stringify(jsonResponse, null, 2), {
         headers: { "Content-Type": "application/json" },
       });
-
     } catch (err) {
-      return new Response(JSON.stringify({ status: false, error: err.message }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ status: false, error: err.message }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
     }
   },
 };
